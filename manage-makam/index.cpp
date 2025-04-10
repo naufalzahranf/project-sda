@@ -356,99 +356,8 @@ class LahanList {
         }
     };
     
-// Linked List untuk Katalog Desain
-class DesainList {
-    private:
-        NodeDesain* head;
-        int count;
-        
-    public:
-        DesainList() {
-            head = NULL;
-            count = 0;
-        }
-        
-        ~DesainList() {
-            NodeDesain* current = head;
-            while (current != NULL) {
-                NodeDesain* temp = current;
-                current = current->next;
-                delete temp;
-            }
-        }
-        
-        void tambahDesain(string kode, string nama, string desk) {
-            NodeDesain* newNode = new NodeDesain();
-            newNode->kodeDesain = kode;
-            newNode->namaDesain = nama;
-            newNode->deskripsi = desk;
-            newNode->next = NULL;
-            
-            if (head == NULL) {
-                head = newNode;
-            } else {
-                NodeDesain* current = head;
-                while (current->next != NULL) {
-                    current = current->next;
-                }
-                current->next = newNode;
-            }
-            count++;
-        }
-        
-        void lihatKatalog() {
-            if (head == NULL) {
-                cout << "\nBelum ada desain.\n" << endl;
-                return;
-            }
-            
-            cout << "\n== Katalog Desain Makam ==" << endl;
-            NodeDesain* current = head;
-            int i = 1;
-            
-            while (current != NULL) {
-                cout << i << ". Kode     : " << current->kodeDesain << endl;
-                cout << "   Nama     : " << current->namaDesain << endl;
-                cout << "   Deskripsi: " << current->deskripsi << endl;
-                cout << "--------------------------" << endl;
-                
-                current = current->next;
-                i++;
-            }
-        }
-        
-        bool hapusDesain(int index) {
-            if (head == NULL || index < 1 || index > count) {
-                return false;
-            }
-            
-            NodeDesain* temp = head;
-            if (index == 1) {
-                head = head->next;
-                delete temp;
-                count--;
-                return true;
-            }
-            
-            NodeDesain* current = head;
-            for (int i = 1; i < index - 1; i++) {
-                current = current->next;
-            }
-            
-            temp = current->next;
-            current->next = temp->next;
-            delete temp;
-            count--;
-            return true;
-        }
-        
-        int getCount() {
-            return count;
-        }
-    };
-    
-    // Linked List untuk Permintaan Pembersihan
-    class PermintaanList {
+// Linked List untuk Permintaan Pembersihan
+class PermintaanList {
     private:
         NodePermintaan* head;
         int count;
@@ -512,3 +421,89 @@ class DesainList {
             return count;
         }
     };
+    
+    // ==================== INSTANCE GLOBAL ====================
+    PemakamanList dataPemakaman;
+    LahanList dataLahan;
+    DesainList katalogDesain;
+    PermintaanList permintaanPembersihan;
+    
+    // ==================== FUNGSI PROTOTIPE ====================
+    void tampilWelcome();
+    void menuAdmin();
+    void menuUser();
+    void tambahDataPemakaman();
+    void lihatDataPemakaman();
+    void hapusDataPemakaman();
+    void kelolaLahan();
+    void laporanKetersediaan();
+    void kelolaKatalogDesain();
+    void tambahDesainMakam();
+    void lihatKatalogDesain();
+    void hapusDesainMakam();
+    void ajukanPembersihan();
+    void lihatPermintaanPembersihan();
+    void cariDataPemakaman();
+    
+    // ==================== MAIN ====================
+    int main() {
+        tampilWelcome();
+        return 0;
+    }
+    
+    // ==================== MENU UTAMA ====================
+    void tampilWelcome() {
+        int pilihan;
+        cout << "=======================================" << endl;
+        cout << "  SELAMAT DATANG DI SISTEM PEMAKAMAN   " << endl;
+        cout << "=======================================" << endl;
+        cout << "1. Masuk sebagai Admin" << endl;
+        cout << "2. Masuk sebagai User" << endl;
+        cout << "3. Keluar" << endl;
+        cout << "Pilih opsi: ";
+        cin >> pilihan;
+    
+        switch(pilihan) {
+            case 1:
+                menuAdmin(); break;
+            case 2:
+                menuUser(); break;
+            case 3:
+                cout << "Terima kasih telah menggunakan aplikasi ini." << endl; break;
+            default:
+                cout << "Pilihan tidak valid. Silakan coba lagi." << endl;
+                tampilWelcome();
+        }
+    }
+    
+    // ==================== MENU ADMIN ====================
+    void menuAdmin() {
+        int pilihan;
+        cout << "\n==== MENU ADMIN ====" << endl;
+        cout << "1. Tambah Data Pemakaman" << endl;
+        cout << "2. Lihat Data Pemakaman" << endl;
+        cout << "3. Hapus Data Pemakaman" << endl;
+        cout << "4. Kelola Lahan Pemakaman" << endl;
+        cout << "5. Laporan Ketersediaan Lahan" << endl;
+        cout << "6. Kelola Katalog Desain Makam" << endl;
+        cout << "7. Lihat Permintaan Pembersihan" << endl;
+        cout << "8. Kembali ke Menu Utama" << endl;
+        cout << "Pilih opsi: ";
+        cin >> pilihan;
+        cin.ignore();
+    
+        switch(pilihan) {
+            case 1: tambahDataPemakaman(); break;
+            case 2: lihatDataPemakaman(); break;
+            case 3: hapusDataPemakaman(); break;
+            case 4: kelolaLahan(); break;
+            case 5: laporanKetersediaan(); break;
+            case 6: kelolaKatalogDesain(); break;
+            case 7: lihatPermintaanPembersihan(); break;
+            case 8: tampilWelcome(); return;
+            default: cout << "Pilihan tidak valid." << endl;
+        }
+    
+        menuAdmin();
+    }
+    
