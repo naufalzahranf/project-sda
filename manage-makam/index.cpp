@@ -170,3 +170,188 @@ public:
         return count;
     }
 };
+
+// Linked List untuk Lahan Pemakaman
+class LahanList {
+    private:
+        NodeLahan* head;
+        int count;
+        
+    public:
+        LahanList() {
+            head = NULL;
+            count = 0;
+        }
+        
+        ~LahanList() {
+            NodeLahan* current = head;
+            while (current != NULL) {
+                NodeLahan* temp = current;
+                current = current->next;
+                delete temp;
+            }
+        }
+        
+        void tambahLahan(string kode, string agm) {
+            NodeLahan* newNode = new NodeLahan();
+            newNode->kodeBlok = kode;
+            newNode->agama = agm;
+            newNode->statusTerisi = false;
+            newNode->next = NULL;
+            
+            if (head == NULL) {
+                head = newNode;
+            } else {
+                NodeLahan* current = head;
+                while (current->next != NULL) {
+                    current = current->next;
+                }
+                current->next = newNode;
+            }
+            count++;
+        }
+        
+        void lihatLahan() {
+            if (head == NULL) {
+                cout << "Belum ada lahan yang ditambahkan." << endl;
+                return;
+            }
+            
+            cout << "\n== Daftar Lahan ==" << endl;
+            NodeLahan* current = head;
+            int i = 1;
+            
+            while (current != NULL) {
+                cout << i << ". Blok: " << current->kodeBlok
+                     << " | Agama: " << current->agama
+                     << " | Status: " << (current->statusTerisi ? "Terisi" : "Kosong") << endl;
+                
+                current = current->next;
+                i++;
+            }
+        }
+        
+        bool ubahStatusLahan(int index) {
+            if (head == NULL || index < 1 || index > count) {
+                return false;
+            }
+            
+            NodeLahan* current = head;
+            for (int i = 1; i < index; i++) {
+                current = current->next;
+            }
+            
+            current->statusTerisi = !current->statusTerisi;
+            return true;
+        }
+        
+        void laporanKetersediaan() {
+            int kosong = 0, terisi = 0;
+            NodeLahan* current = head;
+            
+            while (current != NULL) {
+                if (current->statusTerisi) terisi++;
+                else kosong++;
+                current = current->next;
+            }
+            
+            cout << "Lahan kosong  : " << kosong << endl;
+            cout << "Lahan terisi  : " << terisi << endl;
+            cout << "Total lahan   : " << count << endl;
+        }
+        
+        int getCount() {
+            return count;
+        }
+    };
+    
+    // Linked List untuk Katalog Desain
+    class DesainList {
+    private:
+        NodeDesain* head;
+        int count;
+        
+    public:
+        DesainList() {
+            head = NULL;
+            count = 0;
+        }
+        
+        ~DesainList() {
+            NodeDesain* current = head;
+            while (current != NULL) {
+                NodeDesain* temp = current;
+                current = current->next;
+                delete temp;
+            }
+        }
+        
+        void tambahDesain(string kode, string nama, string desk) {
+            NodeDesain* newNode = new NodeDesain();
+            newNode->kodeDesain = kode;
+            newNode->namaDesain = nama;
+            newNode->deskripsi = desk;
+            newNode->next = NULL;
+            
+            if (head == NULL) {
+                head = newNode;
+            } else {
+                NodeDesain* current = head;
+                while (current->next != NULL) {
+                    current = current->next;
+                }
+                current->next = newNode;
+            }
+            count++;
+        }
+        
+        void lihatKatalog() {
+            if (head == NULL) {
+                cout << "\nBelum ada desain.\n" << endl;
+                return;
+            }
+            
+            cout << "\n== Katalog Desain Makam ==" << endl;
+            NodeDesain* current = head;
+            int i = 1;
+            
+            while (current != NULL) {
+                cout << i << ". Kode     : " << current->kodeDesain << endl;
+                cout << "   Nama     : " << current->namaDesain << endl;
+                cout << "   Deskripsi: " << current->deskripsi << endl;
+                cout << "--------------------------" << endl;
+                
+                current = current->next;
+                i++;
+            }
+        }
+        
+        bool hapusDesain(int index) {
+            if (head == NULL || index < 1 || index > count) {
+                return false;
+            }
+            
+            NodeDesain* temp = head;
+            if (index == 1) {
+                head = head->next;
+                delete temp;
+                count--;
+                return true;
+            }
+            
+            NodeDesain* current = head;
+            for (int i = 1; i < index - 1; i++) {
+                current = current->next;
+            }
+            
+            temp = current->next;
+            current->next = temp->next;
+            delete temp;
+            count--;
+            return true;
+        }
+        
+        int getCount() {
+            return count;
+        }
+    };
