@@ -507,3 +507,181 @@ class PermintaanList {
         menuAdmin();
     }
     
+// ==================== MENU USER ====================
+void menuUser() {
+    int pilihan;
+    cout << "\n==== MENU USER ====" << endl;
+    cout << "1. Cari Data Pemakaman" << endl;
+    cout << "2. Lihat Katalog Desain Makam" << endl;
+    cout << "3. Lihat Ketersediaan Lahan" << endl;
+    cout << "4. Ajukan Permintaan Pembersihan" << endl;
+    cout << "5. Kembali ke Menu Utama" << endl;
+    cout << "Pilih opsi: ";
+    cin >> pilihan;
+    cin.ignore();
+
+    switch (pilihan) {
+        case 1: cariDataPemakaman(); break;
+        case 2: lihatKatalogDesain(); break;
+        case 3: laporanKetersediaan(); break;
+        case 4: ajukanPembersihan(); break;
+        case 5: tampilWelcome(); return;
+        default:
+            cout << "Pilihan tidak valid!" << endl;
+    }
+
+    menuUser();
+}
+
+// ==================== FITUR ADMIN ====================
+void tambahDataPemakaman() {
+    string nama, tglLahir, tglKematian, lokasi, pj;
+    
+    cout << "\n== Tambah Data Pemakaman ==" << endl;
+    cout << "Nama Jenazah          : "; getline(cin, nama);
+    cout << "Tanggal Lahir         : "; getline(cin, tglLahir);
+    cout << "Tanggal Kematian      : "; getline(cin, tglKematian);
+    cout << "Lokasi (blok/baris)   : "; getline(cin, lokasi);
+    cout << "Penanggung Jawab      : "; getline(cin, pj);
+    
+    dataPemakaman.tambahData(nama, tglLahir, tglKematian, lokasi, pj);
+    cout << "Data berhasil ditambahkan!\n" << endl;
+}
+
+void lihatDataPemakaman() {
+    dataPemakaman.lihatData();
+}
+
+void hapusDataPemakaman() {
+    int index;
+    
+    lihatDataPemakaman();
+    if (dataPemakaman.getCount() == 0) return;
+    
+    cout << "\nMasukkan nomor data yang ingin dihapus: "; cin >> index;
+    
+    if (dataPemakaman.hapusData(index)) {
+        cout << "Data berhasil dihapus.\n" << endl;
+    } else {
+        cout << "Nomor tidak valid!" << endl;
+    }
+}
+
+void kelolaLahan() {
+    int pilihan;
+    cout << "\n== Kelola Lahan Pemakaman ==" << endl;
+    cout << "1. Tambah Lahan Baru" << endl;
+    cout << "2. Tampilkan Semua Lahan" << endl;
+    cout << "3. Ubah Status Lahan" << endl;
+    cout << "Pilih opsi: "; cin >> pilihan; cin.ignore();
+
+    if (pilihan == 1) {
+        string kode, agama;
+        cout << "Kode Blok (contoh i1, k2): "; getline(cin, kode);
+        cout << "Agama (Islam/Kristen/dll): "; getline(cin, agama);
+        
+        dataLahan.tambahLahan(kode, agama);
+        cout << "Lahan berhasil ditambahkan!" << endl;
+    } else if (pilihan == 2) {
+        dataLahan.lihatLahan();
+    } else if (pilihan == 3) {
+        int idx;
+        dataLahan.lihatLahan();
+        cout << "Masukkan nomor lahan yang ingin diubah statusnya: "; cin >> idx;
+        
+        if (dataLahan.ubahStatusLahan(idx)) {
+            cout << "Status lahan berhasil diubah!" << endl;
+        } else {
+            cout << "Nomor tidak valid!" << endl;
+        }
+    } else {
+        cout << "Pilihan tidak tersedia." << endl;
+    }
+}
+
+void laporanKetersediaan() {
+    dataLahan.laporanKetersediaan();
+}
+
+void kelolaKatalogDesain() {
+    int pilihan;
+    cout << "\n== Kelola Katalog Desain ==" << endl;
+    cout << "1. Tambah Desain" << endl;
+    cout << "2. Lihat Katalog" << endl;
+    cout << "3. Hapus Desain" << endl;
+    cout << "Pilih opsi: "; cin >> pilihan; cin.ignore();
+    switch (pilihan) {
+        case 1: tambahDesainMakam(); break;
+        case 2: lihatKatalogDesain(); break;
+        case 3: hapusDesainMakam(); break;
+        default: cout << "Pilihan tidak valid." << endl;
+    }
+}
+
+void tambahDesainMakam() {
+    string kode, nama, deskripsi;
+    
+    cout << "\nKode Desain   : "; getline(cin, kode);
+    cout << "Nama Desain   : "; getline(cin, nama);
+    cout << "Deskripsi     : "; getline(cin, deskripsi);
+    
+    katalogDesain.tambahDesain(kode, nama, deskripsi);
+    cout << "Desain berhasil ditambahkan.\n";
+}
+
+void lihatKatalogDesain() {
+    katalogDesain.lihatKatalog();
+}
+
+void hapusDesainMakam() {
+    int index;
+    
+    lihatKatalogDesain();
+    if (katalogDesain.getCount() == 0) return;
+    
+    cout << "\nMasukkan nomor desain yang ingin dihapus: ";
+    cin >> index;
+    
+    if (katalogDesain.hapusDesain(index)) {
+        cout << "Desain berhasil dihapus.\n";
+    } else {
+        cout << "Nomor tidak valid!" << endl;
+    }
+}
+
+void lihatPermintaanPembersihan() {
+    permintaanPembersihan.lihatPermintaan();
+}
+
+// ==================== FITUR USER ====================
+void cariDataPemakaman() {
+    string namaCari, blokCari;
+    
+    cout << "\n==== CARI DATA PEMAKAMAN ====" << endl;
+    cout << "Masukkan nama jenazah (kosongkan jika tidak ingin mencari berdasarkan nama): ";
+    getline(cin, namaCari);
+    cout << "Masukkan blok/lokasi (kosongkan jika tidak ingin mencari berdasarkan lokasi): ";
+    getline(cin, blokCari);
+    
+    cout << "\n=== HASIL PENCARIAN ===" << endl;
+    
+    // Jika kedua input kosong
+    if (namaCari.empty() && blokCari.empty()) {
+        cout << "Silakan masukkan minimal satu kriteria pencarian." << endl;
+        return;
+    }
+    
+    dataPemakaman.cariData(namaCari, blokCari);
+}
+
+void ajukanPembersihan() {
+    string nama, lokasi, catatan;
+    
+    cout << "\n== Ajukan Permintaan Pembersihan ==" << endl;
+    cout << "Nama Pemohon    : "; getline(cin, nama);
+    cout << "Lokasi Makam    : "; getline(cin, lokasi);
+    cout << "Catatan Tambahan: "; getline(cin, catatan);
+    
+    permintaanPembersihan.tambahPermintaan(nama, lokasi, catatan);
+    cout << "Permintaan berhasil diajukan!\n" << endl;
+}
