@@ -11,8 +11,6 @@ struct NodePemakaman
     string tanggalKematian;
     string lokasi;
     string penanggungJawab;
-    bool statusTerisi;
-    NodePemakaman* next;
 };
 
 struct NodePermintaan
@@ -27,7 +25,6 @@ NodePemakaman dataPemakaman[max_pemakaman];
 int jumlahPemakaman = 0;
 int jumlahPermintaan = 0;
 
-NodePemakaman* headPemakaman = NULL;
 NodePermintaan* headPermintaan = NULL;
 
 void mainMenu();
@@ -149,6 +146,13 @@ void menuPengguna()
 
 void tambahDataPemakaman()
 {
+    if (jumlahPemakaman >= max_pemakaman)
+    {
+        cout << "Maaf, data pemakaman sudah penuh!" << endl;
+        return;
+    }
+
+
     string nama, tanggalLahir, tanggalKematian, lokasi, pj;
 
     cout << "======== Tambah Data Pemakaman ========" << endl;
@@ -160,100 +164,56 @@ void tambahDataPemakaman()
     cout << "Lokasi (blok/baris)    : "; getline(cin, lokasi);
     cout << "Penanggung Jawab       : "; getline(cin, pj);
 
-    NodePemakaman* new_node;
-    new_node = new NodePemakaman();
-    new_node -> namaJenazah = nama;
-    new_node -> tanggalLahir = tanggalLahir;
-    new_node -> tanggalKematian = tanggalKematian;
-    new_node -> lokasi = lokasi;
-    new_node -> penanggungJawab = pj;
-    new_node -> statusTerisi = true;
-    new_node -> next = NULL;
-
-    if (headPemakaman == NULL)
-    {
-        headPemakaman = new_node;
-    }
-    else
-    {
-        NodePemakaman *current;
-        current = headPemakaman;
-        while (current -> next != NULL)
-        {
-            current = current -> next;
-        }
-        current -> next = new_node;
-    }
+    dataPemakaman[jumlahPemakaman] = {nama, tanggalLahir, tanggalKematian, lokasi, pj};
     jumlahPemakaman++;
 }
 
 void lihatDataPemakaman()
 {
-    if (headPemakaman == NULL)
+    if (jumlahPemakaman == 0)
     {
         cout << "Maaf, belum ada data yang tersedia." << endl;
         return;
     }
 
     cout << "Data Pemakaman" << endl;
-    NodePemakaman* current;
-    current = headPemakaman;
-    int i = 1;
 
-    while (current != NULL)
+    for (int i = 0; i < jumlahPemakaman; i++)
     {
-        cout << "========== Data Ke-" << i <<" ================="<< endl;
-        cout << "Nama Jenazah       : " << current -> namaJenazah << endl;
-        cout << "Tanggal Lahir      : " << current -> tanggalLahir << endl;
-        cout << "Tanggal Kematian   : " << current -> tanggalKematian << endl;
-        cout << "Lokasi             : " << current -> lokasi << endl;
-        cout << "Penanggung Jawab   : " << current -> penanggungJawab << endl;
-        cout << "Status             : " << (current -> statusTerisi ? "Terisi" : "Kosong") << endl;
+        cout << "========== Data Ke-" << i + 1 <<" ================="<< endl;
+        cout << "Nama Jenazah       : " << dataPemakaman[i].namaJenazah << endl;
+        cout << "Tanggal Lahir      : " << dataPemakaman[i].tanggalLahir << endl;
+        cout << "Tanggal Kematian   : " << dataPemakaman[i].tanggalKematian << endl;
+        cout << "Lokasi             : " << dataPemakaman[i].lokasi << endl;
+        cout << "Penanggung Jawab   : " << dataPemakaman[i].penanggungJawab << endl;
         cout << "=======================================" << endl;
-
-        current = current -> next;
-        i++;
     }
 }
 
 bool hapusDataPemakaman()
 {
-    int index;
-    lihatDataPemakaman();
     if (jumlahPemakaman == 0)
     {
+        cout << "Maaf, belum ada data yang tersedia." << endl;
         return false;
     }
 
-    cin.ignore();
-    cout << "Masukkan nomor data yang ingin dihapus disini: "; cin >> index;
+    lihatDataPemakaman();
+    int index;
+    cout << "Masukkan nomor data yang akan dihapus disini: ";
+    cin >> index;
 
-    if (headPemakaman == NULL || index < 1 || index > jumlahPemakaman)
+    if (index < 1 || index > jumlahPemakaman)
     {
+        cout << "Indeks tidak valid." << endl;
         return false;
     }
 
-    NodePemakaman* temp;
-    temp = headPemakaman;
-
-    if (index == 1)
+    index--;
+    for (int i = index; i < jumlahPemakaman - 1; i++)
     {
-        headPemakaman = headPemakaman -> next;
-        delete temp;
-        jumlahPemakaman--;
-        return true;
+        dataPemakaman[i] = dataPemakaman[i+1];
     }
-
-    NodePemakaman* current;
-    current = headPemakaman;
-    for (int i = 1; i < index - 1; i++)
-    {
-        current = current -> next;
-    }
-
-    temp = current -> next;
-    current -> next = temp -> next;
-    delete temp;
     jumlahPemakaman--;
     return true;
 }
@@ -275,37 +235,30 @@ void cariDataPemakaman()
         return;
     }
 
-    if (headPemakaman == NULL)
+    if (jumlahPemakaman == 0)
     {
         cout << "Belum ada data pemakaman." << endl;
         return;
     }
 
-    NodePemakaman* current;
-    current = headPemakaman;
     bool ditemukan = false;
 
-    while (current != NULL)
+    for (int i = 0; i < jumlahPemakaman; i++)
     {
-        bool cocokNama = cariNama.empty() ||
-            current -> namaJenazah.find(cariNama) != string::npos;
-        bool cocokBlok = cariBlok.empty() ||
-            current -> lokasi.find(cariBlok) != string::npos;
+        bool cocokNama = cariNama.empty() || dataPemakaman[i].namaJenazah.find(cariNama) != string::npos;
+        bool cocokBlok = cariBlok.empty() || dataPemakaman[i].lokasi.find(cariBlok) != string::npos;
 
         if (cocokNama && cocokBlok)
         {
             ditemukan = true;
             cout << "======= Data Pemakaman Ditemukan ======="<< endl;
-            cout << "Nama Jenazah       : " << current -> namaJenazah << endl;
-            cout << "Tanggal Lahir      : " << current -> tanggalLahir << endl;
-            cout << "Tanggal Kematian   : " << current -> tanggalKematian << endl;
-            cout << "Lokasi             : " << current -> lokasi << endl;
-            cout << "Penanggung Jawab   : " << current -> penanggungJawab << endl;
-            cout << "Status             : " << (current -> statusTerisi ? "Terisi" : "Kosong") << endl;
+            cout << "Nama Jenazah       : " << dataPemakaman[i].namaJenazah << endl;
+            cout << "Tanggal Lahir      : " << dataPemakaman[i].tanggalLahir << endl;
+            cout << "Tanggal Kematian   : " << dataPemakaman[i].tanggalKematian << endl;
+            cout << "Lokasi             : " << dataPemakaman[i].lokasi << endl;
+            cout << "Penanggung Jawab   : " << dataPemakaman[i].penanggungJawab << endl;
             cout << "========================================" << endl;
         }
-
-        current = current -> next;
     }
 
     if (!ditemukan)
