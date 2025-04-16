@@ -2,6 +2,8 @@
 #include <string>
 using namespace std;
 
+const int max_pemakaman = 100;
+
 struct NodePemakaman
 {
     string namaJenazah;
@@ -13,47 +15,62 @@ struct NodePemakaman
     NodePemakaman* next;
 };
 
-NodePemakaman* headPemakaman = NULL;
-int countPemakaman = 1;
-
-int main()
+struct NodePermintaan
 {
-    tampilWelcome();
-}
+    string namaPeminta;
+    string lokasiMakam;
+    string catatan;
+    NodePermintaan* next;
+};
 
-void tampilWelcome()
+NodePemakaman dataPemakaman[max_pemakaman];
+int jumlahPemakaman = 0;
+int jumlahPermintaan = 0;
+
+NodePemakaman* headPemakaman = NULL;
+NodePermintaan* headPermintaan = NULL;
+
+void mainMenu();
+void menuAdmin();
+void menuPengguna();
+void tambahDataPemakaman();
+void lihatDataPemakaman();
+bool hapusDataPemakaman();
+void cariDataPemakaman();
+void tambahPermintaan();
+void lihatPermintaan();
+
+void mainMenu()
 {
     int pilihan;
 
-    cout << "======================================" << endl;
-    cout << "  Selamat Datang di Sistem Pemakaman  " << endl;
-    cout << "======================================" << endl;
-    cout << "1) Masuk sebagai Admin" << endl;
-    cout << "2) Masuk sebagai Pengguna" << endl;
-    cout << "3) Keluar" << endl;
-    cout << "======================================" << endl;
-
     while (true)
     {
-        cout << "Pilih opsi disini (1/2/3): ";
-        cin >> pilihan;
-
+        cout << "=======================================" << endl;
+        cout << "  SELAMAT DATANG DI SISTEM PEMAKAMAN   " << endl;
+        cout << "=======================================" << endl;
+        cout << "1) Masuk sebagai Administrator" << endl;
+        cout << "2) Masuk sebagai Pengguna" << endl;
+        cout << "3) Keluar" << endl;
+        cout << "=======================================" << endl;
+        cout << "Pilih opsi disini: "; cin >> pilihan;
         if (pilihan == 1)
         {
+            cin.ignore();
             menuAdmin();
         }
         else if (pilihan == 2)
         {
+            cin.ignore();
             menuPengguna();
         }
         else if (pilihan == 3)
         {
-            cout << "Terimakasih telah menggunakan aplikasi ini." << endl;
             break;
         }
         else
         {
-            cout << "Pilihan tidak tersedia. Silakan ulangi." << endl;
+           cout <<  "Opsi tidak tersedia. Silakan Ulangi." << endl;
         }
     }
 }
@@ -62,21 +79,16 @@ void menuAdmin()
 {
     int pilihan;
 
-    cout << "==== Menu Admin Sistem Pemakaman ====" << endl;
-    cout << "1) Tambah Data Pemakaman" << endl;
-    cout << "2) Lihat Data Pemakaman" << endl;
-    cout << "3) Hapus Data Pemakaman" << endl;
-    cout << "4) Kelola Lahan Pemakaman" << endl;
-    cout << "5) Laporan Ketersediaan Lahan" << endl;
-    cout << "6) Kelola Katalog Desain Makam" << endl;
-    cout << "7) Lihat Permintaan Pembersihan" << endl;
-    cout << "8) Kembali ke Menu Awal" << endl;
-    cout << "=====================================" << endl;
-    
     while (true)
     {
-        cout << "Pilih opsi disini (1/2/3/4): ";
-        cin >> pilihan;
+        cout << "============= Menu Admin ==============" << endl;
+        cout << "1. Tambah Data Pemakaman" << endl;
+        cout << "2. Lihat Data Pemakaman" << endl;
+        cout << "3. Hapus Data Pemakaman" << endl;
+        cout << "4. Lihat Permintaan Pembersihan" << endl;
+        cout << "5. Kembali ke Menu Utama" << endl;
+        cout << "=======================================" << endl;
+        cout << "Pilih opsi disini: "; cin >> pilihan;
 
         if (pilihan == 1)
         {
@@ -92,27 +104,15 @@ void menuAdmin()
         }
         else if (pilihan == 4)
         {
-            kelolaLahan();
+            lihatPermintaan();
         }
         else if (pilihan == 5)
         {
-            laporanKetersediaan();
-        }
-        else if (pilihan == 6)
-        {
-            kelolaKatalogDesain();
-        }
-        else if (pilihan == 7)
-        {
-            lihatPermintaanPembersihan();
-        }
-        else if (pilihan == 8)
-        {
-            tampilWelcome();
+            return;
         }
         else
         {
-            cout << "Opsi tidak tersedia. Silakan Ulangi." << endl;
+            cout << "Pilihan tidak tersedia. Silakan ulangi." << endl;
         }
     }
 }
@@ -121,17 +121,14 @@ void menuPengguna()
 {
     int pilihan;
 
-    cout << "Menu Pengguna Sistem Pemakaman" << endl;
-    cout << "1) Cari Data Pemakaman" << endl;
-    cout << "2) Lihat Katalog Desain Makam" << endl;
-    cout << "3) Lihat Ketersediaan Lahan" << endl;
-    cout << "4) Ajukan Permintaan Pembersihan" << endl;
-    cout << "5) Kembali ke Menu Utama" << endl;
-
     while (true)
     {
-        cout << "Pilih opsi disini (1/2/3/4/5): ";
-        cin >> pilihan;
+        cout << "============ Menu Pengguna ============" << endl;
+        cout << "1. Cari Data Pemakaman" << endl;
+        cout << "2. Ajukan Permintaan Pembersihan" << endl;
+        cout << "3. Kembali ke Menu Utama" << endl;
+        cout << "=======================================" << endl;
+        cout << "Pilih opsi: "; cin >> pilihan;
 
         if (pilihan == 1)
         {
@@ -139,44 +136,37 @@ void menuPengguna()
         }
         else if (pilihan == 2)
         {
-            lihatKatalogDesainMakam();
+            tambahPermintaan();
         }
         else if (pilihan == 3)
         {
-            lihatKetersediaan();
-        }
-        else if (pilihan == 4)
-        {
-            ajukanPembersihan();
-        }
-        else if (pilihan == 5)
-        {
-            tampilWelcome();
+            return;
         }
         else
         {
-            cout << "Opsi tidak tersedia. Silakan Ulangi." << endl;
+            cout << "Pilihan tidak tersedia. Silakan Ulangi." << endl;
         }
     }
 }
 
 void tambahDataPemakaman()
 {
-    string nama, tglLahir, tglKematian, lokasi, pj;
+    string nama, tanggalLahir, tanggalKematian, lokasi, pj;
 
-    cout << "\n== Tambah Data Pemakaman ==" << endl;
-    cout << "Nama Jenazah        : "; getline(cin, nama);
-    cout << "Tanggal Lahir       : "; getline(cin, tglLahir);
-    cout << "Tanggal Kematian    : "; getline(cin, tglKematian);
-    cout << "Lokasi Makam        : "; getline(cin, lokasi);
-    cout << "Penanggung Jawab    : "; getline(cin, pj);
+    cout << "======== Tambah Data Pemakaman ========" << endl;
+    cin.ignore();
+
+    cout << "Nama Jenazah           : "; getline(cin, nama);
+    cout << "Tanggal Lahir          : "; getline(cin, tanggalLahir);
+    cout << "Tanggal Kematian       : "; getline(cin, tanggalKematian);
+    cout << "Lokasi (blok/baris)    : "; getline(cin, lokasi);
+    cout << "Penanggung Jawab       : "; getline(cin, pj);
 
     NodePemakaman* new_node;
-
     new_node = new NodePemakaman();
     new_node -> namaJenazah = nama;
-    new_node -> tanggalLahir = tglLahir;
-    new_node -> tanggalKematian = tglKematian;
+    new_node -> tanggalLahir = tanggalLahir;
+    new_node -> tanggalKematian = tanggalKematian;
     new_node -> lokasi = lokasi;
     new_node -> penanggungJawab = pj;
     new_node -> statusTerisi = true;
@@ -188,63 +178,76 @@ void tambahDataPemakaman()
     }
     else
     {
-        NodePemakaman* current;
+        NodePemakaman *current;
         current = headPemakaman;
-        while (current->next != NULL)
+        while (current -> next != NULL)
         {
             current = current -> next;
         }
         current -> next = new_node;
     }
-
-    cout << "Data pemakaman berhasil ditambahkan." << endl;
-    countPemakaman++;
+    jumlahPemakaman++;
 }
 
 void lihatDataPemakaman()
 {
     if (headPemakaman == NULL)
     {
-        cout << "Belum ada data pemakaman disini." << endl;
+        cout << "Maaf, belum ada data yang tersedia." << endl;
         return;
     }
 
-    NodePemakaman* current = headPemakaman;
+    cout << "Data Pemakaman" << endl;
+    NodePemakaman* current;
+    current = headPemakaman;
     int i = 1;
 
     while (current != NULL)
     {
-        cout << "================================================" << endl;
-        cout << "Data ke-" << i++ << endl;
-        cout << "Nama Jenazah        : " << current -> namaJenazah << endl;
-        cout << "Tanggal Lahir       : " << current -> tanggalLahir << endl;
-        cout << "Tanggal Kematian    : " << current -> tanggalKematian << endl;
-        cout << "Lokasi Makam        : " << current -> lokasi << endl;
-        cout << "Penanggung Jawab    : " << current -> penanggungJawab << endl;
-        cout << "Status              : " << (current -> statusTerisi ? "Terisi" : "Kosong") << endl;
-        cout << "================================================" << endl;
+        cout << "========== Data Ke-" << i <<" ================="<< endl;
+        cout << "Nama Jenazah       : " << current -> namaJenazah << endl;
+        cout << "Tanggal Lahir      : " << current -> tanggalLahir << endl;
+        cout << "Tanggal Kematian   : " << current -> tanggalKematian << endl;
+        cout << "Lokasi             : " << current -> lokasi << endl;
+        cout << "Penanggung Jawab   : " << current -> penanggungJawab << endl;
+        cout << "Status             : " << (current -> statusTerisi ? "Terisi" : "Kosong") << endl;
+        cout << "=======================================" << endl;
+
+        current = current -> next;
+        i++;
     }
 }
 
-
-bool hapusDataPemakaman(int data)
+bool hapusDataPemakaman()
 {
-    if (headPemakaman == NULL || data < 1 || data > countPemakaman)
+    int index;
+    lihatDataPemakaman();
+    if (jumlahPemakaman == 0)
     {
-        return false
+        return false;
     }
 
-    NodePemakaman* temp = headPemakaman;
+    cout << "Masukkan nomor data yang ingin dihapus disini: "; cin >> index;
+
+    if (headPemakaman == NULL || index < 1 || index > jumlahPemakaman)
+    {
+        return false;
+    }
+
+    NodePemakaman* temp;
+    temp = headPemakaman;
+
     if (index == 1)
     {
-        headPemakaman = temp->next;
+        headPemakaman = headPemakaman -> next;
         delete temp;
-        countPemakaman--;
+        jumlahPemakaman--;
         return true;
     }
 
-    NodePemakaman* current = headPemakaman;
-    for (int i = 1; i < data - 1; i++)
+    NodePemakaman* current;
+    current = headPemakaman;
+    for (int i = 1; i < index - 1; i++)
     {
         current = current -> next;
     }
@@ -252,17 +255,32 @@ bool hapusDataPemakaman(int data)
     temp = current -> next;
     current -> next = temp -> next;
     delete temp;
-    countPemakaman--;
+    jumlahPemakaman--;
     return true;
 }
 
 void cariDataPemakaman()
 {
-    string nama, blok;
-    cout << "Masukkan Nama Jenazah disini (boleh kosong): ";
-    getline(cin, nama);
-    cout << "Masukkan Lokasi/Blok Makam (boleh kosong): ";
-    getline(cin, blok);
+    string cariNama, cariBlok;
+
+    cout << "========= Cari Data Pemakaman =========" << endl;
+    cout << "Masukkan nama jenazah disini (kosongkan jika tidak ingin mencari): ";
+    getline(cin, cariNama);
+    cout << "Masukkan blok/lokasi disini (kosongkan jika tidak ingin mencari): ";
+    getline(cin, cariBlok);
+    cin.ignore();
+
+    if (cariNama.empty() && cariBlok.empty())
+    {
+        cout << "Silakan masukkan minimal satu kriteria pencarian." << endl;
+        return;
+    }
+
+    if (headPemakaman == NULL)
+    {
+        cout << "Belum ada data pemakaman." << endl;
+        return;
+    }
 
     NodePemakaman* current;
     current = headPemakaman;
@@ -270,18 +288,96 @@ void cariDataPemakaman()
 
     while (current != NULL)
     {
-        bool cariNama = nama.empty() || current -> namaJenazah.find(nama) != string::npos;
-        bool cariBlok = blok.empty() || current -> lokasi.find(blok) != string::npos;
+        bool cocokNama = cariNama.empty() ||
+            current -> namaJenazah.find(cariNama) != string::npos;
+        bool cocokBlok = cariBlok.empty() ||
+            current -> lokasi.find(cariBlok) != string::npos;
 
-        if (cariNama && cariBlok)
+        if (cocokNama && cocokBlok)
         {
             ditemukan = true;
-            cout << "Data Ditemukan" << endl;
-            cout << "Nama Jenazah        : " << current -> namaJenazah << endl;
-            cout << "Tanggal Lahir       : " << current -> tanggalLahir << endl;
-            cout << "Tanggal Kematian    : " << current -> tanggalKematian << endl;
-            cout << "Lokasi Makam        : " << current -> lokasi << endl;
-            cout << "Penanggung Jawab    : " << current -> penanggungJawab << endl;
+            cout << "======= Data Pemakaman Ditemukan ======="<< endl;
+            cout << "Nama Jenazah       : " << current -> namaJenazah << endl;
+            cout << "Tanggal Lahir      : " << current -> tanggalLahir << endl;
+            cout << "Tanggal Kematian   : " << current -> tanggalKematian << endl;
+            cout << "Lokasi             : " << current -> lokasi << endl;
+            cout << "Penanggung Jawab   : " << current -> penanggungJawab << endl;
+            cout << "Status             : " << (current -> statusTerisi ? "Terisi" : "Kosong") << endl;
+            cout << "========================================" << endl;
         }
+
+        current = current -> next;
+    }
+
+    if (!ditemukan)
+    {
+        cout << "Data pemakaman yang dicari tidak ditemukan." << endl;
     }
 }
+
+void tambahPermintaan()
+{
+    string nama, lokasi, catatan;
+
+    cout << "=========== Tambah Permintaan Pembersihan Makam ===================" << endl;
+    cout << "Masukkan nama disini: "; getline(cin, nama);
+    cout << "Masukkan blok jenazah disini: "; getline(cin, lokasi);
+    cout << "Masukkan catatan untuk petugas disini (opsional): "; getline(cin, catatan);
+    cout << "===================================================================" << endl;
+
+    cin.ignore();
+
+    NodePermintaan* new_node;
+    new_node = new NodePermintaan;
+    new_node -> namaPeminta = nama;
+    new_node -> lokasiMakam = lokasi;
+    new_node -> catatan = catatan;
+    new_node -> next = NULL;
+
+    if (headPermintaan == NULL)
+    {
+        headPermintaan = new_node;
+    }
+    else
+    {
+        NodePermintaan* current;
+        current = headPermintaan;
+        while (current->next != NULL)
+        {
+            current = current -> next;
+        }
+        current -> next = new_node;
+    }
+    jumlahPermintaan++;
+}
+
+void lihatPermintaan()
+{
+    if (headPermintaan == NULL)
+    {
+        cout << "Belum ada data permintaan." << endl;
+        return;
+    }
+
+    cout << "Daftar Permintaan Pembersihan Makam" << endl;
+    NodePermintaan* current;
+    current = headPermintaan;
+    int i = 1;
+
+    while (current != NULL)
+    {
+        cout << i << ") Nama Peminta    : " << current->namaPeminta << endl;
+        cout << "   Lokasi Makam        : " << current->lokasiMakam << endl;
+        cout << "   Catatan             : " << current->catatan << endl;
+        cout << "=======================================" << endl;
+
+        current = current -> next;
+        i++;
+    }
+}
+
+int main()
+{
+    mainMenu();
+}
+
