@@ -56,12 +56,10 @@ void mainMenu()
         cout << "Pilih opsi disini: "; cin >> pilihan;
         if (pilihan == 1)
         {
-            cin.ignore();
             menuAdmin();
         }
         else if (pilihan == 2)
         {
-            cin.ignore();
             menuPengguna();
         }
         else if (pilihan == 3)
@@ -227,6 +225,7 @@ bool hapusDataPemakaman()
         return false;
     }
 
+    cin.ignore();
     cout << "Masukkan nomor data yang ingin dihapus disini: "; cin >> index;
 
     if (headPemakaman == NULL || index < 1 || index > jumlahPemakaman)
@@ -264,11 +263,11 @@ void cariDataPemakaman()
     string cariNama, cariBlok;
 
     cout << "========= Cari Data Pemakaman =========" << endl;
+    cin.ignore();
     cout << "Masukkan nama jenazah disini (kosongkan jika tidak ingin mencari): ";
     getline(cin, cariNama);
     cout << "Masukkan blok/lokasi disini (kosongkan jika tidak ingin mencari): ";
     getline(cin, cariBlok);
-    cin.ignore();
 
     if (cariNama.empty() && cariBlok.empty())
     {
@@ -320,12 +319,11 @@ void tambahPermintaan()
     string nama, lokasi, catatan;
 
     cout << "=========== Tambah Permintaan Pembersihan Makam ===================" << endl;
-    cout << "Masukkan nama disini: "; getline(cin, nama);
-    cout << "Masukkan blok jenazah disini: "; getline(cin, lokasi);
-    cout << "Masukkan catatan untuk petugas disini (opsional): "; getline(cin, catatan);
-    cout << "===================================================================" << endl;
-
     cin.ignore();
+    cout << "Masukkan nama disini                               : "; getline(cin, nama);
+    cout << "Masukkan blok jenazah disini                       : "; getline(cin, lokasi);
+    cout << "Masukkan catatan untuk petugas disini (opsional)   : "; getline(cin, catatan);
+    cout << "===================================================================" << endl;
 
     NodePermintaan* new_node;
     new_node = new NodePermintaan;
@@ -367,8 +365,8 @@ void lihatPermintaan()
     while (current != NULL)
     {
         cout << i << ") Nama Peminta    : " << current->namaPeminta << endl;
-        cout << "   Lokasi Makam        : " << current->lokasiMakam << endl;
-        cout << "   Catatan             : " << current->catatan << endl;
+        cout << "   Lokasi Makam    : " << current->lokasiMakam << endl;
+        cout << "   Catatan         : " << current->catatan << endl;
         cout << "=======================================" << endl;
 
         current = current -> next;
