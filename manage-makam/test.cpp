@@ -89,9 +89,10 @@ void menuAdmin()
         cout << "============= Menu Admin ==============" << endl;
         cout << "1. Tambah Data Pemakaman" << endl;
         cout << "2. Lihat Data Pemakaman" << endl;
-        cout << "3. Hapus Data Pemakaman" << endl;
-        cout << "4. Lihat Permintaan Pembersihan" << endl;
-        cout << "5. Kembali ke Halaman Login" << endl;
+        cout << "3. Cari Data Pemakaman" << endl;
+        cout << "4. Hapus Data Pemakaman" << endl;
+        cout << "5. Lihat Permintaan Pembersihan" << endl;
+        cout << "6. Kembali ke Halaman Login" << endl;
         cout << "=======================================" << endl;
         cout << "Pilih opsi disini: "; cin >> pilihan;
 
@@ -105,13 +106,17 @@ void menuAdmin()
         }
         else if (pilihan == 3)
         {
-            hapusDataPemakaman();
+            cariDataPemakaman();
         }
         else if (pilihan == 4)
         {
-            lihatPermintaan();
+            hapusDataPemakaman();
         }
         else if (pilihan == 5)
+        {
+            lihatPermintaan();
+        }
+        else if (pilihan == 6)
         {
             login();
         }
