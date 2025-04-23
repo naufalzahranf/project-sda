@@ -24,7 +24,7 @@ struct NodePemakaman
 
 struct NodePermintaan
 {
-    string namaPeminta;
+    string namaKeluarga;
     string lokasiMakam;
     string catatan;
     NodePermintaan* next;
@@ -389,7 +389,7 @@ void tambahPermintaan()
 
     NodePermintaan* new_node;
     new_node = new NodePermintaan;
-    new_node -> namaPeminta = nama;
+    new_node -> namaKeluarga = nama;
     new_node -> lokasiMakam = lokasi;
     new_node -> catatan = catatan;
     new_node -> next = NULL;
@@ -432,7 +432,7 @@ void lihatPermintaan()
 
     while (current != NULL)
     {
-        cout << i << ") Nama Peminta    : " << current->namaPeminta << endl;
+        cout << i << ") Nama Keluarga    : " << current->namaKeluarga << endl;
         cout << "   Lokasi Makam    : " << current->lokasiMakam << endl;
         cout << "   Catatan         : " << current->catatan << endl;
         cout << "=======================================" << endl;
