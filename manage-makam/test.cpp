@@ -32,6 +32,8 @@ void menuAdmin();
 void menuPengguna();
 void tambahDataPemakaman();
 void lihatDataPemakaman();
+bool parseTanggal(const string& tanggal, int& dd, int& mm, int& yyyy);
+bool tanggalKurangSama(int dd1, int mm1, int yyyy1, int dd2, int mm2, int yyyy2);
 bool hapusDataPemakaman();
 void cariDataPemakaman();
 void tambahPermintaan();
@@ -81,7 +83,7 @@ void menuAdmin()
     #ifdef _WIN32
         system("cls");
     #else
-        system("clear")
+        system("clear");
     #endif
 
     int pilihan;
@@ -129,7 +131,7 @@ void menuPengguna()
     #ifdef _WIN32
         system("cls");
     #else
-        system("clear")
+        system("clear");
     #endif
 
     int pilihan;
@@ -228,7 +230,7 @@ bool parseTanggal(const string& tanggal, int& dd, int& mm, int& yyyy)
 
     dd = (tanggal[0] - '0') * 10 + (tanggal[1] - '0');
     mm = (tanggal[3] - '0') * 10 + (tanggal[4] - '0');
-    yyyy = (tanggal[6] - '0') * 1000 + (tanggal[7] - '0') * 1000 + (tanggal[8] - '0') * 1000 + (tanggal[9] - '0') * 1000;
+    yyyy = (tanggal[6] - '0') * 1000 + (tanggal[7] - '0') * 100 + (tanggal[8] - '0') * 10 + (tanggal[9] - '0');
 
     if (dd < 1 || dd > 31 || mm < 1 || mm > 12 || yyyy < 1900)
     {
@@ -255,7 +257,7 @@ void lihatDataPemakaman()
     #ifdef _WIN32
         system("cls");
     #else
-        system("clear")
+        system("clear");
     #endif
 
     if (jumlahPemakaman == 0)
@@ -283,7 +285,7 @@ bool hapusDataPemakaman()
     #ifdef _WIN32
         system("cls");
     #else
-        system("clear")
+        system("clear");
     #endif
 
     if (jumlahPemakaman == 0)
@@ -317,7 +319,7 @@ void cariDataPemakaman()
     #ifdef _WIN32
         system("cls");
     #else
-        system("clear")
+        system("clear");
     #endif
 
     string cariNama, cariBlok;
@@ -372,7 +374,7 @@ void tambahPermintaan()
     #ifdef _WIN32
         system("cls");
     #else
-        system("clear")
+        system("clear");
     #endif
 
     string nama, lokasi, catatan;
@@ -413,7 +415,7 @@ void lihatPermintaan()
     #ifdef _WIN32
         system("cls");
     #else
-        system("clear")
+        system("clear");
     #endif
 
     if (headPermintaan == NULL)
@@ -444,7 +446,7 @@ int main()
     #ifdef _WIN32
         system("cls");
     #else
-        system("clear")
+        system("clear");
     #endif
 
     mainMenu();
