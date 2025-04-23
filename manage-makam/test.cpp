@@ -39,6 +39,12 @@ void lihatPermintaan();
 
 void mainMenu()
 {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear")
+    #endif
+
     int pilihan;
 
     while (true)
@@ -72,6 +78,12 @@ void mainMenu()
 
 void menuAdmin()
 {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear")
+    #endif
+
     int pilihan;
 
     while (true)
@@ -114,6 +126,12 @@ void menuAdmin()
 
 void menuPengguna()
 {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear")
+    #endif
+
     int pilihan;
 
     while (true)
@@ -146,6 +164,12 @@ void menuPengguna()
 
 void tambahDataPemakaman()
 {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+
     if (jumlahPemakaman >= max_pemakaman)
     {
         cout << "Maaf, data pemakaman sudah penuh!" << endl;
@@ -154,13 +178,40 @@ void tambahDataPemakaman()
 
 
     string nama, tanggalLahir, tanggalKematian, lokasi, pj;
+    int ddLahir, mmLahir, yyyyLahir, ddKematian, mmKematian, yyyyKematian;
 
     cout << "======== Tambah Data Pemakaman ========" << endl;
     cin.ignore();
 
     cout << "Nama Jenazah           : "; getline(cin, nama);
-    cout << "Tanggal Lahir          : "; getline(cin, tanggalLahir);
-    cout << "Tanggal Kematian       : "; getline(cin, tanggalKematian);
+
+    while (true)
+    {
+        cout << "Tanggal Lahir (dd-mm-yyyy)     : "; getline(cin, tanggalLahir);
+        if (!parseTanggal(tanggalLahir, ddLahir, mmLahir, yyyyLahir))
+        {
+            cout << "Format yang diinput salah. Mohon input ulang." << endl;
+            continue;
+        }
+        break;
+    }
+
+    while (true)
+    {
+        cout << "Tanggal Kematian (dd-mm-yyyy)  : "; getline(cin, tanggalKematian);
+        if (!parseTanggal(tanggalKematian, ddKematian, mmKematian, yyyyKematian))
+        {
+            cout << "Format yang diinput salah. Mohon input ulang." << endl;
+            continue;
+        }
+        if (!tanggalKurangSama(ddLahir, mmLahir, yyyyLahir, ddKematian, mmKematian, yyyyKematian))
+        {
+            cout << "Tanggal kematian harus setelah tanggal lahir. Mohon input ulang." << endl;
+            continue;
+        }
+        break;
+    }
+    
     cout << "Lokasi (blok/baris)    : "; getline(cin, lokasi);
     cout << "Penanggung Jawab       : "; getline(cin, pj);
 
@@ -168,8 +219,45 @@ void tambahDataPemakaman()
     jumlahPemakaman++;
 }
 
+bool parseTanggal(const string& tanggal, int& dd, int& mm, int& yyyy)
+{
+    if (tanggal.length() != 10 || tanggal[2] != '-' || tanggal[5] != '-')
+    {
+        return false;
+    }
+
+    dd = (tanggal[0] - '0') * 10 + (tanggal[1] - '0');
+    mm = (tanggal[3] - '0') * 10 + (tanggal[4] - '0');
+    yyyy = (tanggal[6] - '0') * 1000 + (tanggal[7] - '0') * 1000 + (tanggal[8] - '0') * 1000 + (tanggal[9] - '0') * 1000;
+
+    if (dd < 1 || dd > 31 || mm < 1 || mm > 12 || yyyy < 1900)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool tanggalKurangSama(int dd1, int mm1, int yyyy1, int dd2, int mm2, int yyyy2)
+{
+    if (yyyy1 != yyyy2)
+    {
+        return yyyy1 < yyyy2;
+    }
+    if (mm1 != mm2)
+    {
+        return mm1 < mm2;
+    }
+    return dd1 <= dd2;
+}
+
 void lihatDataPemakaman()
 {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear")
+    #endif
+
     if (jumlahPemakaman == 0)
     {
         cout << "Maaf, belum ada data yang tersedia." << endl;
@@ -192,6 +280,12 @@ void lihatDataPemakaman()
 
 bool hapusDataPemakaman()
 {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear")
+    #endif
+
     if (jumlahPemakaman == 0)
     {
         cout << "Maaf, belum ada data yang tersedia." << endl;
@@ -220,6 +314,12 @@ bool hapusDataPemakaman()
 
 void cariDataPemakaman()
 {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear")
+    #endif
+
     string cariNama, cariBlok;
 
     cout << "========= Cari Data Pemakaman =========" << endl;
@@ -269,6 +369,12 @@ void cariDataPemakaman()
 
 void tambahPermintaan()
 {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear")
+    #endif
+
     string nama, lokasi, catatan;
 
     cout << "=========== Tambah Permintaan Pembersihan Makam ===================" << endl;
@@ -304,6 +410,12 @@ void tambahPermintaan()
 
 void lihatPermintaan()
 {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear")
+    #endif
+
     if (headPermintaan == NULL)
     {
         cout << "Belum ada data permintaan." << endl;
@@ -329,6 +441,12 @@ void lihatPermintaan()
 
 int main()
 {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear")
+    #endif
+
     mainMenu();
 }
 
