@@ -4,6 +4,15 @@ using namespace std;
 
 const int max_pemakaman = 100;
 
+struct Akun
+{
+    string username;
+    string password;
+    string role;
+};
+
+Akun akunAdmin = {"admin", "admin123", "admin"};
+
 struct NodePemakaman
 {
     string namaJenazah;
@@ -39,42 +48,29 @@ void cariDataPemakaman();
 void tambahPermintaan();
 void lihatPermintaan();
 
-void mainMenu()
+void login()
 {
     #ifdef _WIN32
         system("cls");
     #else
-        system("clear")
+        system("clear");
     #endif
 
-    int pilihan;
+    string username, password;
 
-    while (true)
+    cout << "======= Login Sistem Pemakaman ========" << endl;
+    cout << "Username: "; cin >> username;
+    cout << "Password: "; cin >> password;
+
+    if (username == akunAdmin.username && password == akunAdmin.password)
     {
-        cout << "=======================================" << endl;
-        cout << "  SELAMAT DATANG DI SISTEM PEMAKAMAN   " << endl;
-        cout << "=======================================" << endl;
-        cout << "1) Masuk sebagai Administrator" << endl;
-        cout << "2) Masuk sebagai Pengguna" << endl;
-        cout << "3) Keluar" << endl;
-        cout << "=======================================" << endl;
-        cout << "Pilih opsi disini: "; cin >> pilihan;
-        if (pilihan == 1)
-        {
-            menuAdmin();
-        }
-        else if (pilihan == 2)
-        {
-            menuPengguna();
-        }
-        else if (pilihan == 3)
-        {
-            break;
-        }
-        else
-        {
-           cout <<  "Opsi tidak tersedia. Silakan Ulangi." << endl;
-        }
+        cout << "Login sebagai administrator berhasil!" << endl;
+        menuAdmin();
+    }
+    else
+    {
+        cout << "Login berhasil!" << endl;
+        menuPengguna();
     }
 }
 
@@ -95,7 +91,7 @@ void menuAdmin()
         cout << "2. Lihat Data Pemakaman" << endl;
         cout << "3. Hapus Data Pemakaman" << endl;
         cout << "4. Lihat Permintaan Pembersihan" << endl;
-        cout << "5. Kembali ke Menu Utama" << endl;
+        cout << "5. Kembali ke Halaman Login" << endl;
         cout << "=======================================" << endl;
         cout << "Pilih opsi disini: "; cin >> pilihan;
 
@@ -117,7 +113,7 @@ void menuAdmin()
         }
         else if (pilihan == 5)
         {
-            return;
+            login();
         }
         else
         {
@@ -141,7 +137,7 @@ void menuPengguna()
         cout << "============ Menu Pengguna ============" << endl;
         cout << "1. Cari Data Pemakaman" << endl;
         cout << "2. Ajukan Permintaan Pembersihan" << endl;
-        cout << "3. Kembali ke Menu Utama" << endl;
+        cout << "3. Kembali ke Halaman Login" << endl;
         cout << "=======================================" << endl;
         cout << "Pilih opsi: "; cin >> pilihan;
 
@@ -155,7 +151,7 @@ void menuPengguna()
         }
         else if (pilihan == 3)
         {
-            return;
+            login();
         }
         else
         {
@@ -449,6 +445,6 @@ int main()
         system("clear");
     #endif
 
-    mainMenu();
+    login();
 }
 
