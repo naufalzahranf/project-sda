@@ -186,7 +186,7 @@ void tambahDataPemakaman()
     cout << "======== Tambah Data Pemakaman ========" << endl;
     cin.ignore();
 
-    cout << "Nama Jenazah           : "; getline(cin, nama);
+    cout << "Nama Jenazah                   : "; getline(cin, nama);
 
     while (true)
     {
@@ -215,8 +215,8 @@ void tambahDataPemakaman()
         break;
     }
     
-    cout << "Lokasi (blok/baris)    : "; getline(cin, lokasi);
-    cout << "Penanggung Jawab       : "; getline(cin, pj);
+    cout << "Lokasi (blok/baris)            : "; getline(cin, lokasi);
+    cout << "Penanggung Jawab               : "; getline(cin, pj);
 
     dataPemakaman[jumlahPemakaman] = {nama, tanggalLahir, tanggalKematian, lokasi, pj};
     jumlahPemakaman++;
@@ -449,9 +449,10 @@ void lihatPermintaan()
 
     while (current != NULL)
     {
+        cout << "=======================================" << endl;
         cout << i << ") Nama Keluarga    : " << current->namaKeluarga << endl;
-        cout << "   Lokasi Makam    : " << current->lokasiMakam << endl;
-        cout << "   Catatan         : " << current->catatan << endl;
+        cout << "   Lokasi Makam     : " << current->lokasiMakam << endl;
+        cout << "   Catatan          : " << current->catatan << endl;
         cout << "=======================================" << endl;
 
         current = current -> next;
