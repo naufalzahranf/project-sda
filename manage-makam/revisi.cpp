@@ -215,12 +215,14 @@ void tambahDataPemakaman()
         break;
     }
     
-    cout << "Lokasi (blok/baris)            : "; getline(cin, lokasi);
+    cout << "Lokasi (contoh: I1, K4)        : "; getline(cin, lokasi);
     cout << "Penanggung Jawab               : "; getline(cin, pj);
 
     dataPemakaman[jumlahPemakaman] = {nama, tanggalLahir, tanggalKematian, lokasi, pj};
     jumlahPemakaman++;
 }
+
+// dd-mm-yyyy
 
 bool parseTanggal(const string& tanggal, int& dd, int& mm, int& yyyy)
 {
@@ -399,7 +401,7 @@ void tambahPermintaan()
 
     cout << "=========== Tambah Permintaan Pembersihan Makam ===================" << endl;
     cin.ignore();
-    cout << "Masukkan nama disini                               : "; getline(cin, nama);
+    cout << "Masukkan nama keluarga disini                      : "; getline(cin, nama);
     cout << "Masukkan blok jenazah disini                       : "; getline(cin, lokasi);
     cout << "Masukkan catatan untuk petugas disini (opsional)   : "; getline(cin, catatan);
     cout << "===================================================================" << endl;
