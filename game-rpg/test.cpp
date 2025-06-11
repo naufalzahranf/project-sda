@@ -1,5 +1,6 @@
 #include <iostream>
 #include <windows.h>
+#include <cstdlib>
 using namespace std;
 
 
@@ -398,6 +399,7 @@ void mulaiGame()
 
 int main()
 {
+    srand(time(0));
     system("cls");
 
     cout << "==================================================" << endl;
